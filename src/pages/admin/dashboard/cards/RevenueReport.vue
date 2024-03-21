@@ -42,7 +42,6 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { VaCard } from 'vuestic-ui'
-import RevenueReportChart from './RevenueReportChart.vue'
 import { downloadAsCSV } from '../../../../services/toCSV'
 import {
   earningsColor,
