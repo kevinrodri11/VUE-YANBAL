@@ -43,14 +43,6 @@ export default {
           name: 'login',
           displayName: 'menu.login',
         },
-        {
-          name: 'signup',
-          displayName: 'menu.signup',
-        },
-        {
-          name: 'recover-password',
-          displayName: 'menu.recover-password',
-        },
       ],
     },
   ] as INavigationRoute[],
