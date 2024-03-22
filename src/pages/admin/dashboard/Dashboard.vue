@@ -1,21 +1,17 @@
 <script lang="ts" setup>
-import RevenueUpdates from './cards/RevenueReport.vue'
-import RevenueByLocationMap from './cards/RevenueByLocationMap.vue'
+import Carrusel from './cards/Carrusel.vue'
+import Tablainicial from './cards/Tablaini.vue'
 </script>
 
 <template>
-  <h1 class="page-title font-bold">Dashboard</h1>
   <section class="flex flex-col gap-4">
     <div class="flex flex-col sm:flex-row gap-4">
-      <RevenueUpdates class="w-full sm:w-[70%]" />
+      <Carrusel class="w-full sm:w-[100%]" />
     </div>
-    <div class="flex flex-col md:flex-row gap-4">
-      <RevenueByLocationMap class="w-full md:w-4/6" />
-      <RegionRevenue class="w-full md:w-2/6" />
-    </div>
-    <div class="flex flex-col md:flex-row gap-4">
-      <ProjectTable class="w-full md:w-1/2" />
-      <Timeline class="w-full md:w-1/2" />
+    <h1 class="page-title font-bold">Bienvenid@ {name_user}</h1>
+    <DataSection />
+    <div>
+      <Tablainicial />
     </div>
   </section>
 </template>
