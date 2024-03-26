@@ -1,7 +1,7 @@
 <template>
-  <VaCarousel :items="items" stateful autoscroll infinite>
+  <VaCarousel :items="imageUrls" stateful autoscroll infinite>
     <template #default="{ index }">
-      {{ index + 1 }}
+      <img :src="imageUrls[index]" alt="Slide" class="carousel-image" />
     </template>
   </VaCarousel>
 </template>
@@ -10,14 +10,23 @@
 export default {
   data() {
     return {
-      value: 0,
-      items: ['1', '2', '3', '4', '5'],
+      imageNames: ['cyc_yambal.jpg', 'JoyeriaYambal.jpg', 'yanbal_foto.jpg'],
     }
+  },
+  computed: {
+    imageUrls() {
+      return this.imageNames.map((name) => `/public/${name}`)
+    },
   },
 }
 </script>
+
 <style lang="scss">
 .va-carousel__slide {
-  font-size: 40px;
+  .carousel-image {
+    width: auto; /* O ajusta el tamaño según tus necesidades */
+    height: auto; /* Esto mantiene la proporción de la imagen */
+    object-fit: cover; /* Ajusta la imagen para cubrir el contenedor */
+  }
 }
 </style>

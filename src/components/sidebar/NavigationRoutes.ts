@@ -13,28 +13,28 @@ export default {
   routes: [
     {
       name: 'dashboard',
-      displayName: 'menu.dashboard',
+      displayName: 'Pagina principal',
       meta: {
         icon: 'vuestic-iconset-dashboard',
       },
     },
     {
       name: 'users',
-      displayName: 'menu.users',
+      displayName: 'Estado de cartera',
       meta: {
         icon: 'group',
       },
     },
     {
       name: 'projects',
-      displayName: 'menu.projects',
+      displayName: 'Consultas',
       meta: {
         icon: 'folder_shared',
       },
     },
     {
       name: 'auth',
-      displayName: 'menu.auth',
+      displayName: 'Salir',
       meta: {
         icon: 'login',
       },

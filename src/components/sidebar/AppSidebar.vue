@@ -2,7 +2,7 @@
   <VaSidebar v-model="writableVisible" :width="sidebarWidth" :color="color" minimized-width="0">
     <VaAccordion v-model="value" multiple>
       <VaCollapse v-for="(route, index) in navigationRoutes.routes" :key="index">
-        <template #header="{ value: isCollapsed }">
+        <template #header="{}">
           <VaSidebarItem
             :to="route.children ? undefined : { name: route.name }"
             :active="routeHasActiveChild(route)"
@@ -17,12 +17,11 @@
                 v-if="route.meta.icon"
                 aria-hidden="true"
                 :name="route.meta.icon"
-                size="20px"
+                size="25px"
                 :color="iconColor(route)"
               />
               <VaSidebarItemTitle class="flex justify-between items-center leading-5 font-semibold">
                 {{ t(route.displayName) }}
-                <VaIcon v-if="route.children" :name="arrowDirection(isCollapsed)" size="20px" />
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
           </VaSidebarItem>
@@ -91,7 +90,7 @@ export default defineComponent({
     const setActiveExpand = () =>
       (value.value = navigationRoutes.routes.map((route: INavigationRoute) => routeHasActiveChild(route)))
 
-    const sidebarWidth = computed(() => (props.mobile ? '100vw' : '280px'))
+    const sidebarWidth = computed(() => (props.mobile ? '100vw' : '230px'))
     const color = computed(() => getColor('background-secondary'))
     const activeColor = computed(() => colorToRgba(getColor('focus'), 0.1))
 

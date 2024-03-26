@@ -1,20 +1,22 @@
 <template>
-  <div class="grid md:grid-cols-2 gap-6 mb-6">
-    <VaInput v-model="filter" placeholder="Buscar" class="w-full" />
+  <div class="container">
+    <div class="">
+      <VaInput v-model="filter" placeholder="Buscar" class="w-full" />
+    </div>
+
+    <VaDataTable
+      :items="items"
+      :columns="filteredColumns"
+      :filter="filter"
+      :filter-method="customFilteringFn"
+      @filtered="filteredCount = $event.items.length"
+    />
+
+    <VaAlert class="!mt-6" color="info" outline>
+      Numero de filas:
+      <VaChip>{{ filteredCount }}</VaChip>
+    </VaAlert>
   </div>
-
-  <VaDataTable
-    :items="items"
-    :columns="filteredColumns"
-    :filter="filter"
-    :filter-method="customFilteringFn"
-    @filtered="filteredCount = $event.items.length"
-  />
-
-  <VaAlert class="!mt-6" color="info" outline>
-    Numero de filas:
-    <VaChip>{{ filteredCount }}</VaChip>
-  </VaAlert>
 </template>
 
 <script setup>
@@ -45,3 +47,10 @@ const customFilteringFn = (source) => {
   return filterRegex.test(source)
 }
 </script>
+
+<style>
+.container {
+  background-color: white;
+  padding: 10px;
+}
+</style>
