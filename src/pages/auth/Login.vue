@@ -3,7 +3,7 @@
     <h1 class="font-semibold text-4xl mb-4">Iniciar sesión</h1>
     <VaInput
       v-model="formData.user"
-      :rules="[validators.required, validators.user]"
+      :rules="[validators.required]"
       class="mb-4"
       label="Usuario"
       type="text"
@@ -27,7 +27,7 @@
       </VaInput>
     </VaValue>
     <div class="flex justify-center mt-4">
-      <VaButton class="w-full" @click="submit">Iniciar sesión</VaButton>
+      <VaButton class="w-full" type="submit">Iniciar sesión</VaButton>
     </div>
   </VaForm>
 </template>
@@ -37,21 +37,32 @@ import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 import { validators } from '../../services/utils'
+import axios from 'axios'
 
-const { validate } = useForm('form')
 const { push } = useRouter()
 const { init } = useToast()
 
 const formData = reactive({
-  user: '',
-  password: '',
-  keepLoggedIn: false,
+  usuario: '',
+  clave: '',
 })
 
-const submit = () => {
-  if (validate()) {
-    init({ message: 'Has iniciado sesión correctamente', color: 'success' })
-    push({ name: 'dashboard' })
+const submit = async () => {
+  try {
+    const response = await axios.post('/login', {
+      usuario: formData.usuario,
+      clave: formData.clave,
+    })
+
+    if (response.data.success) {
+      init({ message: 'Has iniciado sesión correctamente', color: 'success' })
+      push({ name: 'dashboard' }) // Redirecciona al usuario a la página de dashboard
+    } else {
+      init({ message: 'Credenciales inválidas', color: 'error' })
+    }
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error)
+    init({ message: 'Error al iniciar sesión', color: 'error' })
   }
 }
 </script>
