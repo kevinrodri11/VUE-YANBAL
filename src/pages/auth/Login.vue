@@ -2,7 +2,7 @@
   <VaForm ref="form" @submit.prevent="submit">
     <h1 class="font-semibold text-4xl mb-4">Iniciar sesión</h1>
     <VaInput
-      v-model="formData.user"
+      v-model="formData.usuario"
       :rules="[validators.required]"
       class="mb-4"
       label="Usuario"
@@ -10,7 +10,7 @@
     />
     <VaValue v-slot="isPasswordVisible" :default-value="false">
       <VaInput
-        v-model="formData.password"
+        v-model="formData.clave"
         :rules="[validators.required]"
         :type="isPasswordVisible.value ? 'text' : 'password'"
         class="mb-4"
