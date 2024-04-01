@@ -2,7 +2,7 @@
   <h1 class="page-title">Estado de cartera</h1>
   <div class="card">
     <div class="card-body">
-      <img src="../../../public/cyc_yambal.jpg" alt="Imagen tarjeta izquierda" class="img-fluid" />
+      <img src="../../../public/cyc_yanbal.jpg" alt="Imagen tarjeta izquierda" class="img-fluid" />
     </div>
 
     <form class="formulario">
