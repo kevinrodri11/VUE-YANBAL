@@ -1,32 +1,61 @@
 <template>
-  <VaCarousel :items="imageUrls" stateful autoscroll infinite>
-    <template #default="{ index }">
-      <img :src="imageUrls[index]" alt="Slide" class="carousel-image" />
-    </template>
-  </VaCarousel>
+  <div class="carousel-container">
+    <div class="image-container">
+      <img :src="images[currentImageIndex]" alt="Imagen de carrusel" class="carousel-image">
+    </div>
+  </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      imageNames: ['cyc_yanbal.jpg', 'JoyeriaYanbal.jpg', 'yanbal_foto.jpg', 'perfm_yanbal.jpg', 'yanbal_prodct.jpg'],
-    }
-  },
-  computed: {
-    imageUrls() {
-      return this.imageNames.map((name) => `/public/${name}`)
-    },
-  },
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const images = ref([
+  '/public/cyc_yanbal.jpg',
+  '/public/JoyeriaYanbal.jpg',
+  '/public/yanbal_foto.jpg',
+  '/public/perfm_yanbal.jpg',
+  '/public/yanbal_prodct.jpg',
+])
+
+const currentImageIndex = ref(0)
+
+const nextImage = () => {
+  currentImageIndex.value = (currentImageIndex.value + 1) % images.value.length
 }
+
+let intervalId = null
+
+onMounted(() => {
+  intervalId = setInterval(nextImage, 5000)
+})
+
+onUnmounted(() => {
+  clearInterval(intervalId)
+})
 </script>
 
-<style lang="scss">
-.va-carousel__slide {
-  .carousel-image {
-    width: 400px; /* O ajusta el tamaño según tus necesidades */
-    height: 250px; /* Esto mantiene la proporción de la imagen */
-    object-fit: cover; /* Ajusta la imagen para cubrir el contenedor */
-  }
+
+<style>
+.carousel-container {
+  max-width: 600px; /* Ajusta este valor según tus necesidades */
+  margin: auto;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-container {
+  width: 100%;
+  height: 400px; /* Ajusta este valor según tus necesidades */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.carousel-image {
+  width: 100%; /* Hace que la imagen se extienda para cubrir el ancho del contenedor */
+  height: 100%; /* Hace que la imagen se extienda para cubrir el alto del contenedor */
+  object-fit: cover; /* Asegura que la imagen se ajuste de forma atractiva dentro del contenedor sin deformarse */
 }
 </style>
