@@ -4,8 +4,10 @@
     <section class="volver-section">
       <button class="volver" @click="goBack">Volver a consultar</button>
     </section>
+    <div class="filter-container">
+      <input v-model="filterText" type="text" placeholder="Buscar en la tabla" class="filter-input" />
+    </div>
     <div class="table-container">
-      <input v-model="filterText" type="text" placeholder="Buscar por nombre de consultora">
       <table class="table">
         <thead>
           <tr>
@@ -114,7 +116,10 @@ const goBack = () => {
 }
 const filterText = ref('')
 const filteredItems = computed(() => {
-  return items.value.filter((item) => item.nombre_consultora.toLowerCase().includes(filterText.value.toLowerCase()))
+  // Filtrar elementos en base al texto de búsqueda en todos los campos
+  return items.value.filter((item) =>
+    Object.values(item).some((field) => field.toString().toLowerCase().includes(filterText.value.toLowerCase())),
+  )
 })
 </script>
 
@@ -133,6 +138,19 @@ const filteredItems = computed(() => {
   cursor: pointer;
   text-align: center;
   border-radius: 5px;
+}
+/* Estilos para el filtro */
+.filter-container {
+  margin-bottom: 2px;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #f2f2f2;
 }
 .table-container {
   max-height: 400px;
