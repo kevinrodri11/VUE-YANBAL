@@ -6,7 +6,7 @@ import Tablainicial from './cards/Tablaini.vue'
 <template>
   <section class="flex flex-col gap-4">
     <div class="flex flex-col sm:flex-row gap-4">
-      <Carrusel class="w-full sm:w-[100%]" />
+      <Carrusel />
     </div>
     <h1 class="page-title font-bold">Bienvenid@ {name_user}</h1>
     <DataSection />
