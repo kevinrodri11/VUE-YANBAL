@@ -1,7 +1,7 @@
 <template>
   <div class="carousel-container">
     <div class="image-container">
-      <img :src="images[currentImageIndex]" alt="Imagen de carrusel" class="carousel-image">
+      <img :src="images[currentImageIndex]" alt="Imagen de carrusel" class="carousel-image" />
     </div>
   </div>
 </template>
@@ -33,7 +33,6 @@ onUnmounted(() => {
   clearInterval(intervalId)
 })
 </script>
-
 
 <style>
 .carousel-container {

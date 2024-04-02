@@ -26,13 +26,6 @@ export default {
       },
     },
     {
-      name: 'projects',
-      displayName: 'Consultas',
-      meta: {
-        icon: 'folder_shared',
-      },
-    },
-    {
       name: 'auth',
       displayName: 'Salir',
       meta: {
