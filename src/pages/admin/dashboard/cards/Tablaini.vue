@@ -277,10 +277,11 @@ const prevPage = () => {
 
 .pagination button {
   padding: 5px 10px;
+  background-color: #ffa05c;
+  color: #fff;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
+  text-align: center;
 }
 
 .pagination button:disabled {
