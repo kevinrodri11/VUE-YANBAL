@@ -26,17 +26,11 @@ export default {
       },
     },
     {
-      name: 'auth',
+      name: 'login',
       displayName: 'Salir',
       meta: {
         icon: 'login',
       },
-      children: [
-        {
-          name: 'login',
-          displayName: 'menu.login',
-        },
-      ],
     },
   ] as INavigationRoute[],
 }

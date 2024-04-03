@@ -54,13 +54,12 @@ input {
   margin-bottom: 20px;
 }
 button {
-  margin-top: 0;
   height: 47px;
   padding: 10px 20px;
-  border: 1px solid #000;
-  border-radius: 3px;
+  border: 1px solid;
+  border-radius: 5px;
   background-color: #ffa05c;
-  color: #000;
+  color: #fff;
   cursor: pointer;
 }
 @media (max-width: 768px) {

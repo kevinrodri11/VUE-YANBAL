@@ -26,24 +26,6 @@
             </VaSidebarItemContent>
           </VaSidebarItem>
         </template>
-        <template #body>
-          <div v-for="(childRoute, index2) in route.children" :key="index2">
-            <VaSidebarItem
-              :to="{ name: childRoute.name }"
-              :active="isActiveChildRoute(childRoute)"
-              :active-color="activeColor"
-              :text-color="textColor(childRoute)"
-              :aria-label="`Visit ${t(route.displayName)}`"
-              hover-opacity="0.10"
-            >
-              <VaSidebarItemContent class="py-3 pr-2 pl-11">
-                <VaSidebarItemTitle class="leading-5 font-semibold">
-                  {{ t(childRoute.displayName) }}
-                </VaSidebarItemTitle>
-              </VaSidebarItemContent>
-            </VaSidebarItem>
-          </div>
-        </template>
       </VaCollapse>
     </VaAccordion>
   </VaSidebar>
@@ -91,11 +73,11 @@ export default defineComponent({
       (value.value = navigationRoutes.routes.map((route: INavigationRoute) => routeHasActiveChild(route)))
 
     const sidebarWidth = computed(() => (props.mobile ? '100vw' : '230px'))
-    const color = computed(() => getColor('background-secondary'))
-    const activeColor = computed(() => colorToRgba(getColor('focus'), 0.1))
+    const color = computed(() => '#212121')
+    const activeColor = computed(() => colorToRgba(getColor('#FFA05C'), 8))
 
-    const iconColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'primary' : 'secondary')
-    const textColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'primary' : 'textPrimary')
+    const iconColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'secondary' : 'secondary')
+    const textColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'secondary' : 'secondary')
     const arrowDirection = (state: boolean) => (state ? 'va-arrow-up' : 'va-arrow-down')
 
     watch(() => route.fullPath, setActiveExpand, { immediate: true })

@@ -40,10 +40,6 @@ const routes: Array<RouteRecordRaw> = [
         path: 'login',
         component: () => import('../pages/auth/Login.vue'),
       },
-      {
-        path: '',
-        redirect: { name: 'login' },
-      },
     ],
   },
   {
