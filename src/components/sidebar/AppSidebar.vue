@@ -76,8 +76,8 @@ export default defineComponent({
     const color = computed(() => '#212121')
     const activeColor = computed(() => colorToRgba(getColor('#FFA05C'), 8))
 
-    const iconColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'secondary' : 'secondary')
-    const textColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'secondary' : 'secondary')
+    const iconColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? '#FFFFFF' : '#B3C4C9')
+    const textColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? '#FFFFFF' : '#B3C4C9')
     const arrowDirection = (state: boolean) => (state ? 'va-arrow-up' : 'va-arrow-down')
 
     watch(() => route.fullPath, setActiveExpand, { immediate: true })
