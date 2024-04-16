@@ -31,29 +31,29 @@
     </div>
   </VaForm>
 </template>
-
+ 
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 import { validators } from '../../services/utils'
 import axios from 'axios'
-
+ 
 const { push } = useRouter()
 const { init } = useToast()
-
+ 
 const formData = reactive({
   usuario: '',
   clave: '',
 })
-
+ 
 const submit = async () => {
   try {
     const response = await axios.post('/login', {
       usuario: formData.usuario,
       clave: formData.clave,
     })
-
+ 
     if (response.data.success) {
       init({ message: 'Has iniciado sesión correctamente', color: 'success' })
       push({ name: 'dashboard' }) // Redirecciona al usuario a la página de dashboard
