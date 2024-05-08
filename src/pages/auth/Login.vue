@@ -51,8 +51,16 @@ const formData = reactive({
 
 const submit = () => {
   if (validate()) {
-    init({ message: 'Has iniciado sesión correctamente', color: 'success' })
-    push({ name: 'dashboard' })
+    // Simulando verificación de credenciales con datos estáticos
+    const validUser = '1920';
+    const validPassword = 'Cyc'; 
+
+    if (formData.user === validUser && formData.password === validPassword) {
+      init({ message: 'Has iniciado sesión correctamente', color: 'success' })
+      push({ name: 'dashboard' })
+    } else {
+      init({ message: 'Usuario o contraseña incorrectos', color: 'error' })
+    }
   }
 }
 </script>
