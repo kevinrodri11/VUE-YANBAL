@@ -12,16 +12,7 @@ conexion.connect((err) => {
     console.error('No se pudo establecer la conexión a la base de datos:', err);
     return;
   }
-  console.log('Conexión a la base de datos establecida correctamente.');
-  
-  // Consulta para obtener registros de la tabla example_table
-  conexion.query('SELECT * FROM consultoras', (error, results) => {
-    if (error) {
-      console.error('Error al ejecutar la consulta:', error);
-      return;
-    }
-    console.log('Registros obtenidos correctamente:', results);
-  });
+  console.log('Conexión a la base de datos establecida correctamente.'); 
 });
 
 module.exports = conexion;

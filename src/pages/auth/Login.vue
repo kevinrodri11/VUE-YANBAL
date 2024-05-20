@@ -1,66 +1,73 @@
 <template>
-  <VaForm ref="form" @submit.prevent="submit">
+  <form @submit.prevent="submit">
     <h1 class="font-semibold text-4xl mb-4">Iniciar sesión</h1>
-    <VaInput
-      v-model="formData.user"
-      :rules="[validators.required, validators.user]"
-      class="mb-4"
-      label="Usuario"
-      type="text"
-    />
-    <VaValue v-slot="isPasswordVisible" :default-value="false">
-      <VaInput
-        v-model="formData.password"
-        :rules="[validators.required]"
-        :type="isPasswordVisible.value ? 'text' : 'password'"
+    <div class="mb-4">
+      <label for="usuario">Usuario</label>
+      <input
+        id="usuario"
+        v-model="formData.usuario"
+        type="text"
+        required
         class="mb-4"
-        label="Contraseña"
-        @clickAppendInner.stop="isPasswordVisible.value = !isPasswordVisible.value"
-      >
-        <template #appendInner>
-          <VaIcon
-            :name="isPasswordVisible.value ? 'mso-visibility_off' : 'mso-visibility'"
-            class="cursor-pointer"
-            color="secondary"
-          />
-        </template>
-      </VaInput>
-    </VaValue>
-
-    <div class="flex justify-center mt-4">
-      <VaButton class="w-full" @click="submit">Iniciar sesión</VaButton>
+      />
     </div>
-  </VaForm>
+    <div class="mb-4">
+      <label for="clave">Contraseña</label>
+      <input
+        id="clave"
+        v-model="formData.clave"
+        type="password"
+        required
+        class="mb-4"
+      />
+    </div>
+    <div class="flex justify-center mt-4">
+      <button type="submit" class="w-full">Iniciar sesión</button>
+    </div>
+  </form>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useForm, useToast } from 'vuestic-ui'
-import { validators } from '../../services/utils'
+import { useToast } from 'vuestic-ui'
 
-const { validate } = useForm('form')
 const { push } = useRouter()
 const { init } = useToast()
 
 const formData = reactive({
-  user: '',
-  password: '',
+  usuario: '',
+  clave: '',
   keepLoggedIn: false,
 })
 
-const submit = () => {
-  if (validate()) {
-    // Simulando verificación de credenciales con datos estáticos
-    const validUser = '1920';
-    const validPassword = 'Cyc'; 
+const submit = async () => {
+  console.log('Submit function called'); // Verificar que la función se ejecuta
+  console.log('Form data:', formData); // Verificar los datos del formulario
 
-    if (formData.user === validUser && formData.password === validPassword) {
-      init({ message: 'Has iniciado sesión correctamente', color: 'success' })
-      push({ name: 'dashboard' })
+  try {
+    const response = await fetch('http://localhost:3000/auth/login-test', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+    console.log('Response from server:', data); // Verificar la respuesta del servidor
+
+    if (response.ok) {
+      localStorage.setItem('nombreUsuario', data.nombre);
+      localStorage.setItem('usuarioUsuario', data.usuario);
+      init({ message: data.message, color: 'success' });
+      push({ name: 'dashboard' });
     } else {
-      init({ message: 'Usuario o contraseña incorrectos', color: 'error' })
+      init({ message: data.message, color: 'error' });
     }
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+    init({ message: 'Error interno del servidor', color: 'error' });
   }
-}
+};
 </script>
