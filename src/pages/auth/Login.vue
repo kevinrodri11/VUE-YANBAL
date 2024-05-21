@@ -106,16 +106,13 @@ const submit = async () => {
   display: flex;
   align-items: center;
   gap: 18px;
-  margin-bottom: 20px; /* Ajusta el margen inferior */
-}
-.bg-neutral-900 {
-  background-color: #111827;
+  margin-bottom: 40px;
 }
 .radius-large {
   border-radius: 0.75rem;
 }
 .space-8 {
-  padding: 0.5rem;
+  padding: 0.4rem;
 }
 .brand__logo {
   max-width: 40px;
