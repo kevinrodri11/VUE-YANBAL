@@ -47,9 +47,7 @@ const filterText = ref('');
 
 const filteredItems = computed(() => {
   return props.datos.filter((item) =>
-    Object.values(item).some((field) =>
-      field.toString().toLowerCase().includes(filterText.value.toLowerCase())
-    )
+    Object.values(item).some((field) => field.toString().toLowerCase().includes(filterText.value.toLowerCase())),
   );
 });
 

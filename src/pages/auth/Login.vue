@@ -1,30 +1,42 @@
 <template>
-  <form @submit.prevent="submit">
-    <h1 class="font-semibold text-4xl mb-4">Iniciar sesión</h1>
-    <div class="mb-4">
-      <label for="usuario">Usuario</label>
-      <input
-        id="usuario"
-        v-model="formData.usuario"
-        type="text"
-        required
-        class="mb-4"
-      />
+  <div class="login-container">
+    <div class="inner__brand">
+      <div class="bg-neutral-900 radius-large space-8">
+        <img class="brand__logo radius-large" src="/logo favicon.png" />
+      </div>
+      <div class="brand__text">
+        <span>
+          <h3>C&C Services</h3>
+        </span>
+      </div>
     </div>
-    <div class="mb-4">
-      <label for="clave">Contraseña</label>
-      <input
-        id="clave"
-        v-model="formData.clave"
-        type="password"
-        required
-        class="mb-4"
-      />
-    </div>
-    <div class="flex justify-center mt-4">
-      <button type="submit" class="w-full">Iniciar sesión</button>
-    </div>
-  </form>
+    <form @submit.prevent="submit" class="login-form">
+      <h1 class="font-semibold text-4xl mb-4">Iniciar sesión</h1>
+      <div class="mb-4">
+        <label for="usuario">Usuario</label>
+        <input
+          id="usuario"
+          v-model="formData.usuario"
+          type="text"
+          required
+          class="input"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="clave">Contraseña</label>
+        <input
+          id="clave"
+          v-model="formData.clave"
+          type="password"
+          required
+          class="input"
+        />
+      </div>
+      <div class="flex justify-center mt-4">
+        <button type="submit" class="button">Iniciar sesión</button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -71,3 +83,45 @@ const submit = async () => {
   }
 };
 </script>
+
+<style>
+.input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #f2f2f2;
+}
+.button {
+  width: 100%;
+  padding: 10px 10px;
+  background-color: #ffa05c;
+  color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 18px;
+}
+.inner__brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px; /* Ajusta el margen inferior */
+}
+.bg-neutral-900 {
+  background-color: #111827;
+}
+.radius-large {
+  border-radius: 0.75rem;
+}
+.space-8 {
+  padding: 0.5rem;
+}
+.brand__logo {
+  max-width: 40px;
+}
+.brand__text h3 {
+  font-size: 1.5rem;
+  margin: 0; 
+}
+</style>
