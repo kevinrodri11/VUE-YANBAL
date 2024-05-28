@@ -10,27 +10,15 @@
         </span>
       </div>
     </div>
-    <form @submit.prevent="submit" class="login-form">
+    <form class="login-form" @submit.prevent="submit">
       <h1 class="font-semibold text-4xl mb-4">Iniciar sesión</h1>
       <div class="mb-4">
         <label for="usuario">Usuario</label>
-        <input
-          id="usuario"
-          v-model="formData.usuario"
-          type="text"
-          required
-          class="input"
-        />
+        <input id="usuario" v-model="formData.usuario" type="text" required class="input" />
       </div>
       <div class="mb-4">
         <label for="clave">Contraseña</label>
-        <input
-          id="clave"
-          v-model="formData.clave"
-          type="password"
-          required
-          class="input"
-        />
+        <input id="clave" v-model="formData.clave" type="password" required class="input" />
       </div>
       <div class="flex justify-center mt-4">
         <button type="submit" class="button">Iniciar sesión</button>

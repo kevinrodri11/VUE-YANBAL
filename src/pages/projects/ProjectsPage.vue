@@ -7,7 +7,7 @@
     <div class="filter-container">
       <input v-model="filterText" type="text" placeholder="Buscar en la tabla" class="filter-input" />
     </div>
-    <div class="table-container">
+    <div class="table-container" v-if="project && project.length > 0">
       <table class="table">
         <thead>
           <tr>
@@ -16,23 +16,23 @@
             <th>Factura en Mora</th>
             <th>Saldo en Mora</th>
             <th>Días en Mora</th>
-            <th>Tipificacion</th>
+            <th>Tipificación</th>
             <th>Fecha de acuerdo</th>
             <th>Valor de acuerdo</th>
-            <th>Accion</th>
+            <th>Acción</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in filteredItems" :key="index">
             <td>{{ item.fecha_gestion }}</td>
-            <td>{{ item.nombre_consultora }}</td>
-            <td>{{ item.factura_en_mora }}</td>
-            <td>{{ item.saldo_en_mora }}</td>
-            <td>{{ item.dias_en_mora }}</td>
-            <td><button class="button" @click="showClientDetails(item)">Ver+</button></td>
-            <td>{{ item.fecha_acuerdo }}</td>
-            <td>{{ item.valor_acuerdo }}</td>
-            <td>{{ item.accion }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.factura }}</td>
+            <td>{{ item.valor_total_al_dia }}</td>
+            <td>{{ item.dias_mora_inicial }}</td>
+            <td>{{ item.perfil }}</td>
+            <td>{{ item.fecha_promesa }}</td>
+            <td>{{ item.valor_promesa }}</td>
+            <td>{{ item.descripcion }}</td>
           </tr>
         </tbody>
       </table>
@@ -53,73 +53,46 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const items = ref([
-  {
-    fecha_gestion: '12/12/12',
-    nombre_consultora: 'Brety Consultores S.L.',
-    factura_en_mora: '15151518',
-    saldo_en_mora: '1.900.000',
-    dias_en_mora: '5 días',
-    tipificacion: 'ver+',
-    fecha_acuerdo: '12/12/12',
-    valor_acuerdo: '8.000.000',
-    accion: '-',
-  },
-  {
-    fecha_gestion: '10/06/23',
-    nombre_consultora: 'Soluciones Financieras S.A.S.',
-    factura_en_mora: '12345678',
-    saldo_en_mora: '4.500.000',
-    dias_en_mora: '7 días',
-    tipificacion: 'ver+',
-    fecha_acuerdo: '15/06/23',
-    valor_acuerdo: '4.800.000',
-    accion: 'Reestructuración de deuda',
-  },
-  {
-    fecha_gestion: '01/04/23',
-    nombre_consultora: 'Gestiones Integrales S.A.',
-    factura_en_mora: '20232401',
-    saldo_en_mora: '3.500.000',
-    dias_en_mora: '10 días',
-    tipificacion: 'ver+',
-    fecha_acuerdo: '05/04/23',
-    valor_acuerdo: '3.700.000',
-    accion: 'Negociación de pago',
-  },
-  {
-    fecha_gestion: '15/05/23',
-    nombre_consultora: 'Asesorías Empresariales S.L.',
-    factura_en_mora: '98765432',
-    saldo_en_mora: '2.000.000',
-    dias_en_mora: '15 días',
-    tipificacion: 'ver+',
-    fecha_acuerdo: '20/05/23',
-    valor_acuerdo: '2.100.000',
-    accion: 'Compromiso de pago',
-  },
-])
+const route = useRoute()
+const router = useRouter()
+const project = ref(null)
+
+const fetchProjectDetails = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/projects/${id}`)
+    const data = await response.json()
+    project.value = data
+    console.log(project)
+  } catch (error) {
+    console.error('Error al obtener detalles del proyecto:', error)
+  }
+}
 
 const selectedClient = ref(null)
-
-const showClientDetails = (client) => {
-  selectedClient.value = client
-}
 
 const hideClientDetails = () => {
   selectedClient.value = null
 }
+
 const goBack = () => {
-  window.location.href = '/'
+  router.push('/dashboard')
 }
+
 const filterText = ref('')
 const filteredItems = computed(() => {
-  // Filtrar elementos en base al texto de búsqueda en todos los campos
-  return items.value.filter((item) =>
+  return project.value.filter((item) =>
     Object.values(item).some((field) => field.toString().toLowerCase().includes(filterText.value.toLowerCase())),
   )
+})
+
+onMounted(() => {
+  const projectId = route.params.id
+  if (projectId) {
+    fetchProjectDetails(projectId)
+  }
 })
 </script>
 
