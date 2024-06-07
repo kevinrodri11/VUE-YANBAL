@@ -36,6 +36,7 @@
     "medium-editor": "^5.23.3",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.7",
+    "pdfkit": "^0.15.0",
     "pinia": "^2.1.7",
     "register-service-worker": "^1.7.1",
     "sass": "^1.69.5",

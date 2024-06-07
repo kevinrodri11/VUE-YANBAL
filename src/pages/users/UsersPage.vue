@@ -5,16 +5,40 @@
       <img src="../../../public/cyc_yanbal.jpg" alt="Imagen tarjeta izquierda" class="img-fluid" />
     </div>
 
-    <form class="formulario">
+    <form class="formulario" @submit.prevent="generarInforme">
       <h2 class="page-title">Ingrese el codigo de la directora</h2>
-      <input type="number" placeholder="Codigo directora" name="" />
-      <button>generar informe</button>
+      <input id="codigo" v-model="formData.codigo" type="number" placeholder="Codigo directora" />
+      <button type="submit">generar informe</button>
     </form>
   </div>
 </template>
 
-<script>
-export default {}
+<script lang="ts" setup>
+import { reactive } from 'vue'
+
+const formData = reactive({
+  codigo: '',
+})
+
+const generarInforme = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/generar-informe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return;
+    }
+
+    const data = await response.json();
+  } catch (error) {
+  }
+}
 </script>
 
 <style scoped>
@@ -22,7 +46,7 @@ export default {}
   display: flex;
   align-items: center;
   width: 100%;
-  justify-content: flex-end; /* Alinea el formulario a la derecha */
+  justify-content: flex-end;
 }
 .card-body {
   width: 35%;
@@ -63,7 +87,6 @@ button {
   cursor: pointer;
 }
 @media (max-width: 768px) {
-  /* Mismo estilo para pantallas pequeñas */
   .contenedor,
   .imagen-formulario,
   .formulario {

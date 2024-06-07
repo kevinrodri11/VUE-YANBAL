@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const conexion = require('./conexion');
+const { exec } = require('child_process');
+const path = require('path');
+
 
 const app = express();
 app.use(cors());
@@ -46,7 +49,7 @@ app.get('/api/dashboard-data', (req, res) => {
 
 app.get('/api/projects/:id', (req, res) => {
   const projectId = req.params.id;
-  console.log('Project ID:', projectId);  // Verificar que el ID se pasa correctamente
+  console.log('Project ID:', projectId);
   const query = `
   SELECT 
   fecha_gestion,
@@ -82,6 +85,37 @@ ORDER BY
   });
 });
 
+app.post('/api/generar-informe', (req, res) => {
+  const { codigo } = req.body;
+
+  if (!codigo) {
+    res.status(400).json({ message: 'El código de la directora es requerido' });
+    return;
+  }
+
+  const scriptPath = path.join(__dirname, 'backend', 'estado_cartera', 'Lector.py');
+
+  // Ejecutar el script Python
+  exec(`python ${scriptPath} ${codigo}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error('Error al ejecutar el script:', error);
+      console.error('stderr:', stderr);
+      res.status(500).json({ message: 'Error al generar el informe' });
+      return;
+    }
+
+    // Verifica si hubo algún error en la salida estándar de error
+    if (stderr) {
+      console.error('Error en el script:', stderr);
+      res.status(500).json({ message: 'Error al generar el informe' });
+      return;
+    }
+
+    // Supongamos que el script imprime un mensaje de éxito en la salida estándar
+    console.log('Resultado del script:', stdout);
+    res.json({ message: 'Informe generado exitosamente' });
+  });
+});
 
 app.listen(3000, () => {
   console.log('Servidor iniciado en el puerto 3000');
