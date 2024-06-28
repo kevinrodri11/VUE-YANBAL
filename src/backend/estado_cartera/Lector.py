@@ -3,6 +3,23 @@ import os
 import subprocess
 import time
 import uno
+import sys
+
+# Check if the correct number of arguments is provided
+if len(sys.argv) != 2:
+    print("Usage: python Lector.py <codigo>")
+    sys.exit(1)
+
+# Capture the codigo argument
+codigo = sys.argv[1]
+print(f"Received codigo: {codigo}")
+
+# Convert codigo to int
+try:
+    id_coordinator = int(codigo)
+except ValueError:
+    print("Invalid codigo: Must be an integer")
+    sys.exit(1)
 
 # Run stopwatch to measure execution time, formatting it as a string
 print(time.strftime("%H:%M:%S"))
@@ -169,7 +186,7 @@ def generate_html_content(id_coordinator, data_values, data_rows_html):
 
 def main():
     # Replace 'file_path' with the path to your XLSX file
-    file_path = "ESTADO_DE_CARTERA.xlsb"
+    file_path = "X:\kevin-project\src\\backend\estado_cartera\TEST.xlsb"
 
     if not os.path.exists(file_path):
         print(f"The file {file_path} does not exist.")
@@ -183,7 +200,7 @@ def main():
     # Wait for LibreOffice to start (adjust sleep time if needed)
     time.sleep(5)
 
-    # Connect to LibreOffice
+    # Connect to LibreOffice-
     local_context = uno.getComponentContext()
     resolver = local_context.ServiceManager.createInstanceWithContext("com.sun.star.bridge.UnoUrlResolver", local_context)
     context = resolver.resolve("uno:socket,host=localhost,port=2002;urp;StarOffice.ComponentContext")
@@ -200,12 +217,6 @@ def main():
 
     # Get a cell range
     sheet = document.Sheets.getByName("ESTADO DE CARTERA")
-
-    # Prompt user to enter id_coordinator
-    id_coordinator = input("Enter the id_coordinator: ")
-
-    # Convert id_coordinator to int
-    id_coordinator = int(id_coordinator)
 
     # Get data from columns 1 to 13 starting from row 300
     start_row = 300
@@ -262,7 +273,7 @@ def main():
     html_content = generate_html_content(id_coordinator, data_values, data_rows_html)
 
     # Path where you want to save the PDF output
-    pdf_output_path = "output.pdf"
+    pdf_output_path = os.path.abspath("output.pdf")
 
     # Options for PDF generation
     options = {
@@ -271,10 +282,14 @@ def main():
         "encoding": "UFT-8"
     }
 
+    # Path to wkhtmltopdf executable
+    config = pdfkit.configuration(wkhtmltopdf="C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")
+
     # Convert HTML to PDF using pdfkit
-    pdfkit.from_string(html_content, pdf_output_path, options=options)
+    pdfkit.from_string(html_content, pdf_output_path, options=options, configuration=config)
 
     print("PDF generated successfully.")
+    print(pdf_output_path)
 
 if __name__ == "__main__":
     main()

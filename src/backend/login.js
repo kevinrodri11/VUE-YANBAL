@@ -1,55 +1,55 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const conexion = require('./conexion');
-const { exec } = require('child_process');
-const path = require('path');
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const conexion = require('./conexion')
+const { exec } = require('child_process')
+const fs = require('fs')
+const path = require('path')
 
-
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+const app = express()
+app.use(cors())
+app.use(bodyParser.json())
 
 // Ruta para la autenticación de usuarios
 app.post('/auth/login-test', (req, res) => {
-  const { usuario, clave } = req.body;
+  const { usuario, clave } = req.body
 
-  const query = `SELECT nombre, usuario FROM consultoras WHERE usuario = ? AND clave = ?`;
+  const query = `SELECT nombre, usuario FROM consultoras WHERE usuario = ? AND clave = ?`
   conexion.query(query, [usuario, clave], (err, results) => {
     if (err) {
-      console.error('Error al consultar la base de datos:', err);
-      res.status(500).json({ message: 'Error interno del servidor' });
-      return;
+      console.error('Error al consultar la base de datos:', err)
+      res.status(500).json({ message: 'Error interno del servidor' })
+      return
     }
     if (results.length === 1) {
       // Usuario autenticado correctamente
-      const nombreUsuario = results[0].nombre;
-      const usuarioUsuario = results[0].usuario;
-      res.json({ message: 'Has iniciado sesión correctamente', nombre: nombreUsuario, usuario: usuarioUsuario });
+      const nombreUsuario = results[0].nombre
+      const usuarioUsuario = results[0].usuario
+      res.json({ message: 'Has iniciado sesión correctamente', nombre: nombreUsuario, usuario: usuarioUsuario })
     } else {
       // Usuario o contraseña incorrectos
-      res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
+      res.status(401).json({ message: 'Usuario o contraseña incorrectos' })
     }
-  });
-});
+  })
+})
 
 app.get('/api/dashboard-data', (req, res) => {
-  const usuario = req.query.usuario;
+  const usuario = req.query.usuario
   console.log(usuario)
   const query = `SELECT codigo, nombre FROM reparto WHERE directora = ?;`
   conexion.query(query, [usuario], (err, results) => {
     if (err) {
-      console.error('Error al consultar la base de datos:', err);
-      res.status(500).json({ message: 'Error interno del servidor' });
-      return;
+      console.error('Error al consultar la base de datos:', err)
+      res.status(500).json({ message: 'Error interno del servidor' })
+      return
     }
-    res.json(results);
-  });
-});
+    res.json(results)
+  })
+})
 
 app.get('/api/projects/:id', (req, res) => {
-  const projectId = req.params.id;
-  console.log('Project ID:', projectId);
+  const projectId = req.params.id
+  console.log('Project ID:', projectId)
   const query = `
   SELECT 
   fecha_gestion,
@@ -72,51 +72,59 @@ WHERE
   repart.codigo = ? 
 ORDER BY 
   fecha_gestion DESC;
-`;
+`
 
   conexion.query(query, [projectId], (err, results) => {
     if (err) {
-      console.error('Error al consultar la base de datos:', err);
-      res.status(500).json({ message: 'Error interno del servidor' });
-      return;
+      console.error('Error al consultar la base de datos:', err)
+      res.status(500).json({ message: 'Error interno del servidor' })
+      return
     }
-    console.log('resultado:', results);  
-    res.json(results); // Suponiendo que solo haya un resultado
-  });
-});
+    console.log('resultado:', results)
+    res.json(results)
+  })
+})
 
 app.post('/api/generar-informe', (req, res) => {
-  const { codigo } = req.body;
+  const { codigo } = req.body
 
   if (!codigo) {
-    res.status(400).json({ message: 'El código de la directora es requerido' });
-    return;
+    res.status(400).json({ message: 'El código de la directora es requerido' })
+    return
   }
 
-  const scriptPath = path.join(__dirname, 'backend', 'estado_cartera', 'Lector.py');
+  const scriptPath = path.join(__dirname, 'estado_cartera', 'Lector.py')
 
-  // Ejecutar el script Python
-  exec(`python ${scriptPath} ${codigo}`, (error, stdout, stderr) => {
+  exec(`"C:\\Program Files\\LibreOffice\\program\\python.exe" ${scriptPath} ${codigo}`, (error, stdout, stderr) => {
     if (error) {
-      console.error('Error al ejecutar el script:', error);
-      console.error('stderr:', stderr);
-      res.status(500).json({ message: 'Error al generar el informe' });
-      return;
+      console.error('Error al ejecutar el script:', error)
+      console.error('stderr:', stderr)
+      res.status(500).json({ message: 'Error al generar el informe' })
+      return
     }
 
-    // Verifica si hubo algún error en la salida estándar de error
-    if (stderr) {
-      console.error('Error en el script:', stderr);
-      res.status(500).json({ message: 'Error al generar el informe' });
-      return;
+    console.log('stdout:', stdout)
+    console.error('stderr:', stderr)
+
+    const outputLines = stdout.trim().split('\n')
+    const pdfPath = outputLines[outputLines.length - 1].trim() // Last line should be the PDF path
+
+    const absolutePdfPath = path.resolve(__dirname, 'backend', pdfPath)
+
+    if (!fs.existsSync(absolutePdfPath)) {
+      res.status(500).json({ message: 'Error al encontrar el archivo PDF' })
+      return
     }
 
-    // Supongamos que el script imprime un mensaje de éxito en la salida estándar
-    console.log('Resultado del script:', stdout);
-    res.json({ message: 'Informe generado exitosamente' });
-  });
-});
+    res.sendFile('X:\\kevin-project\\src\\backend\\output.pdf', (err) => {
+      if (err) {
+        console.error('Error al enviar el archivo:', err)
+        res.status(500).json({ message: 'Error al enviar el archivo PDF' })
+      }
+    })
+  })
+})
 
 app.listen(3000, () => {
-  console.log('Servidor iniciado en el puerto 3000');
-});
+  console.log('Servidor iniciado en el puerto 3000')
+})

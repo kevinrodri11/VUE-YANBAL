@@ -10,11 +10,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const images = ref([
-  '/public/cyc_yanbal.jpg',
-  '/public/JoyeriaYanbal.jpg',
   '/public/yanbal_foto.jpg',
-  '/public/perfm_yanbal.jpg',
-  '/public/yanbal_prodct.jpg',
+  '/public/yanbal.jpg',
 ])
 
 const currentImageIndex = ref(0)

@@ -17,7 +17,7 @@
               <a :href="'/projects/' + item.codigo">{{ item.codigo }}</a>
             </td>
             <td>
-              <a :href="'/projects/'">{{ item.nombre }}</a>
+              <a :href="'/projects/' + item.codigo">{{ item.nombre }}</a>
             </td>
           </tr>
         </tbody>

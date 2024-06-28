@@ -1,6 +1,33 @@
 <template>
   <div>
     <h1 class="page-title">Resultado de tu búsqueda...</h1>
+    <div class="container">
+      <p class="chat">
+        <i class="comentario" aria-hidden="true"></i> Para comunicarte con nosotros, dale click al icono de whatsapp en
+        la región que corresponda.<br>
+        <br>
+        <li style="color: green;">
+          <a href="https://wa.link/q0w6kz" class="whatsapp" target="_blank"> <i
+               class="fa fa-whatsapp whatsapp-icon fa-xl"></i> Región Central</a>
+        </li>
+        <br>
+        <li style="color: green;">
+          <a href="https://wa.link/q0w6kz" class="whatsapp" target="_blank"> <i
+              class="fa fa-whatsapp whatsapp-icon fa-xl"></i> Región Nor Occidental</a>
+        </li>
+        <br>
+        <li style="color: green;">
+          <a href="https://wa.link/6ib76z" class="whatsapp" target="_blank"> <i
+              class="fa fa-whatsapp whatsapp-icon fa-xl"></i> Región Oriental</a>
+        </li>
+        <br>
+        <li style="color: green;">
+          <a href="https://wa.link/6ib76z" class="whatsapp" target="_blank"> <i
+              class="fa fa-whatsapp whatsapp-icon fa-xl"></i> Región Territorios Nacionales</a>
+        </li>
+      </p>
+
+    </div>
     <section class="volver-section">
       <button class="volver" @click="goBack">Volver a consultar</button>
     </section>
@@ -103,6 +130,7 @@ onMounted(() => {
   margin-top: 20px;
   padding: 20px;
 }
+
 .volver {
   height: 47px;
   padding: 10px 20px;
@@ -112,6 +140,7 @@ onMounted(() => {
   text-align: center;
   border-radius: 5px;
 }
+
 /* Estilos para el filtro */
 .filter-container {
   margin-bottom: 2px;
@@ -125,24 +154,29 @@ onMounted(() => {
   font-size: 14px;
   background-color: #f2f2f2;
 }
+
 .table-container {
   max-height: 400px;
   overflow-y: auto;
 }
+
 .table {
   width: 100%;
   border-collapse: collapse;
 }
+
 .table th,
 .table td {
   border: 1px solid #ddd;
   padding: 8px;
 }
+
 .table th {
   background-color: #f2f2f2;
   font-weight: bold;
   text-align: left;
 }
+
 .button {
   padding: 5px 10px;
   background-color: #ffa05c;
@@ -151,11 +185,13 @@ onMounted(() => {
   cursor: pointer;
   text-align: center;
 }
+
 h4 {
   color: black;
   text-align: center;
   font-size: large;
 }
+
 .client-details {
   width: 600px;
   height: 270px;
@@ -168,10 +204,12 @@ h4 {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
+
 .client-details-content {
   text-align: left;
   padding: 7%;
 }
+
 .close-button {
   margin-top: 10px;
   padding: 5px 10px;

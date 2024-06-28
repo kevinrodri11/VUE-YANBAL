@@ -30,6 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/projects/ProjectsPage.vue'),
         props: true,
       },
+      
     ],
   },
   {
@@ -56,7 +57,6 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     }
-    // For some reason using documentation example doesn't scroll on page navigation.
     if (to.hash) {
       return { el: to.hash, behavior: 'smooth' }
     } else {

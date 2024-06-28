@@ -2,7 +2,7 @@
   <h1 class="page-title">Estado de cartera</h1>
   <div class="card">
     <div class="card-body">
-      <img src="../../../public/cyc_yanbal.jpg" alt="Imagen tarjeta izquierda" class="img-fluid" />
+      <img src="../../../public/yanbal.jpg" alt="Imagen tarjeta izquierda" class="img-fluid" />
     </div>
 
     <form class="formulario" @submit.prevent="generarInforme">
@@ -25,18 +25,27 @@ const generarInforme = async () => {
     const response = await fetch('http://localhost:3000/api/generar-informe', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData)
-    });
+      body: JSON.stringify(formData),
+    })
 
     if (!response.ok) {
-      const errorData = await response.json();
-      return;
+      const errorData = await response.json()
+      throw new Error(errorData.message)
+    } else if (response.status === 200) {
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.style.display = 'none'
+      a.href = url
+      a.download = 'informe.pdf'
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
     }
-
-    const data = await response.json();
   } catch (error) {
+    console.error(error)
   }
 }
 </script>
@@ -49,7 +58,7 @@ const generarInforme = async () => {
   justify-content: flex-end;
 }
 .card-body {
-  width: 35%;
+  width: 55%;
   float: none;
   margin: 0;
   padding: 10px;
