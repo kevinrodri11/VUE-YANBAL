@@ -80,8 +80,8 @@ ORDER BY
       res.status(500).json({ message: 'Error interno del servidor' });
       return;
     }
-    console.log('resultado:', results);  
-    res.json(results); // Suponiendo que solo haya un resultado
+    console.log('resultado:', results);
+    res.json(results);
   });
 });
 
@@ -93,10 +93,11 @@ app.post('/api/generar-informe', (req, res) => {
     return;
   }
 
-  const scriptPath = path.join(__dirname, 'backend', 'estado_cartera', 'Lector.py');
+  const scriptPath = path.join(__dirname, 'estado_cartera', 'Lector.py');
+  const venvActivate = 'C:\\Users\\kevin.pena\\Desktop\\VUE-YANBAL\\src\\backend\\estado_cartera\\venv\\bin\\activate &&'; // Windows path to your virtual environment
 
   // Ejecutar el script Python
-  exec(`python ${scriptPath} ${codigo}`, (error, stdout, stderr) => {
+  exec(`${venvActivate} python ${scriptPath} ${codigo}`, (error, stdout, stderr) => {
     if (error) {
       console.error('Error al ejecutar el script:', error);
       console.error('stderr:', stderr);
